@@ -3,10 +3,10 @@
 </script>
 
 <template>
-  <footer>
+  <footer class="py-3 mt-auto">
     <div class="container">
-      <p class="text-center text-body-secondary mt-2">{{ new Date().getFullYear() }} &copy;
-        Web Nika. All rights reserved | Design by Ngopikode01</p>
+      <p class="text-center text-secondary mb-0">{{ new Date().getFullYear() }} &copy; Web Nika. All rights reserved |
+        Design by Ngopikode01</p>
     </div>
   </footer>
 </template>

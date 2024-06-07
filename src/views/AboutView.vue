@@ -13,10 +13,16 @@ const message = ref('')
 
 const fetchMessageFromAPI = async () => {
   try {
-    const response = await axios.get(appConfig.apiUrl + 'dashboard')
+    const response = await axios.get(appConfig.apiUrl + 'dashboard', {
+      headers: {
+        Authorization: 'Bearer ' + null
+      }
+    })
+
     message.value = response.data.data
   } catch (error) {
     console.error('Error fetching message from API:', error)
+    message.value = 'Error fetching message from API'
   }
 }
 
