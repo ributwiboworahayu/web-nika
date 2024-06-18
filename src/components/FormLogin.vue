@@ -2,8 +2,8 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import appConfig from '../app-config.js'
-import cookies from 'vue-cookies'
 import router from '@/router/index.js'
+import { handleSetToken } from '@/utils/helper.js'
 
 const passwordVisible = ref(false)
 const loading = ref(false)
@@ -59,10 +59,11 @@ const signIn = (event) => {
         loading.value = false
         return
       }
+
       const accessToken = response.data.data.access_token
-      cookies.set('token', accessToken, 15 * 60)
       const refreshToken = response.data.data.refresh_token
-      cookies.set('refresh_token', refreshToken, 7 * 24 * 60 * 60)
+      handleSetToken(accessToken, refreshToken)
+
       router.push({ name: 'home' })
     })
     .catch(error => {

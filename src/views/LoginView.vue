@@ -12,7 +12,7 @@ import FormLogin from '@/components/FormLogin.vue'
           <div class="card-body d-flex flex-row">
             <!-- Halaman kiri -->
             <div class="flex-grow-1 page d-flex flex-column justify-content-center align-items-center" id="page-1">
-              <h5 class="card-title display-5">Selamat Datang</h5>
+              <h6 class="card-title display-6">Selamat Datang</h6>
               <hr class="w-75">
               <p class="text-center mb-4">silakan masuk untuk melanjutkan</p>
               <FormLogin />

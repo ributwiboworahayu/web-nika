@@ -9,6 +9,7 @@ import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import appConfig from '@/app-config.js'
 import cookies from 'vue-cookies'
+import { handleUnauthorizedAndCheckRefreshToken } from '@/utils/helper.js'
 
 const message = ref('')
 
@@ -22,6 +23,11 @@ const fetchMessageFromAPI = async () => {
 
     message.value = response.data.data
   } catch (error) {
+    if (error.response && error.response.status === 401) {
+      handleUnauthorizedAndCheckRefreshToken()
+      await fetchMessageFromAPI()
+      return
+    }
     console.error('Error fetching message from API:', error)
     message.value = 'Error fetching message from API'
   }
