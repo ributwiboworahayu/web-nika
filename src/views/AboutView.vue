@@ -8,6 +8,7 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import appConfig from '@/app-config.js'
+import cookies from 'vue-cookies'
 
 const message = ref('')
 
@@ -15,7 +16,7 @@ const fetchMessageFromAPI = async () => {
   try {
     const response = await axios.get(appConfig.apiUrl + 'dashboard', {
       headers: {
-        Authorization: 'Bearer ' + null
+        Authorization: 'Bearer ' + cookies.get('token')
       }
     })
 
