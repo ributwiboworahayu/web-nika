@@ -1,5 +1,9 @@
 <template>
-  <div class="about mt-4">
+  <div class="about mt-4 container-fluid">
+    <div v-if="loading" class="spinner-border"
+         role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
     <h5 class="text-center alert">{{ message }}</h5>
   </div>
 </template>
@@ -12,28 +16,31 @@ import cookies from 'vue-cookies'
 import { handleUnauthorizedAndCheckRefreshToken } from '@/utils/helper.js'
 
 const message = ref('')
+const loading = ref(true)
 
-const fetchMessageFromAPI = async () => {
-  try {
-    const response = await axios.get(appConfig.apiUrl + 'dashboard', {
-      headers: {
-        Authorization: 'Bearer ' + cookies.get('token')
-      }
-    })
-
-    message.value = response.data.data
-  } catch (error) {
-    if (error.response && error.response.status === 401) {
-      handleUnauthorizedAndCheckRefreshToken()
-      await fetchMessageFromAPI()
-      return
+const fetchMessageFromAPI = () => {
+  axios.get(appConfig.apiUrl + 'dashboard', {
+    headers: {
+      Authorization: 'Bearer ' + cookies.get('token')
     }
-    console.error('Error fetching message from API:', error)
-    message.value = 'Error fetching message from API'
-  }
+  }).then(response => {
+    message.value = response.data.data
+  }).catch(() => {
+    handleUnauthorizedAndCheckRefreshToken()
+
+    setTimeout(() => {
+      fetchMessageFromAPI()
+    }, 500)
+  })
+
+  loading.value = false
 }
 
-onMounted(fetchMessageFromAPI)
+onMounted(() => {
+  setTimeout(() => {
+    fetchMessageFromAPI()
+  }, 500)
+})
 </script>
 
 <style>

@@ -61,6 +61,7 @@ export const handleUnauthorizedAndCheckRefreshToken = () => {
 
       // Set the new token
       handleSetToken(accessToken, refreshToken)
+
     }).catch(error => {
       console.log(error)
 
